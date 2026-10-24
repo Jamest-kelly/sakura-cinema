@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <p class="sitename">Sakura Cinema</p>
+
+        <img class="cherryblossom"
+             src="images/cherryblossom.jpg"
+             alt="drawing of a pink cherry blossom">
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="recommend.html">Recommendations</a>
+            <a href="register.html">Register</a>
+            <a href="booking.html" aria-current="page">Book Tickets</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content">
+            <h1>Book Tickets</h1>
+
+            <!-- Booking form -->
+            <form class="bookingForm" id="bookingForm"
+                  action="http://mercury.swin.edu.au/it000000/cos10005/regtest.php"
+                  method="post" novalidate>
+
+                <!-- Movie selection -->
+                <label for="movie">Movie</label>
+                <select id="movie" name="movie" required>
+                    <option value="">Choose a movie</option>
+                    <option value="mononoke">Princess Mononoke</option>
+                    <option value="howl">Howl's Moving Castle</option>
+                    <option value="wolf">Wolf Children</option>
+                    <option value="sword">Sword of the Stranger</option>
+                    <option value="beast">The Boy and the Beast</option>
+                    <option value="summer">Summer Wars</option>
+                </select>
+
+                <!-- Screening date and time -->
+                <label for="screen">Date and time</label>
+                <select id="screen" name="screen" required>
+                    <option value="">Choose a session</option>
+                </select>
+
+                <!-- Ticket numbers -->
+                <fieldset class="ticketFields">
+                    <legend>Number of tickets</legend>
+
+                    <label for="adult-tickets">Adult - $18</label>
+                    <input type="number" id="adult-tickets"
+                           name="adult-tickets" min="0" value="0">
+
+                    <label for="student-tickets">Student - $15</label>
+                    <input type="number" id="student-tickets"
+                           name="student-tickets" min="0" value="0">
+
+                    <label for="child-tickets">Child - $12</label>
+                    <input type="number" id="child-tickets"
+                           name="child-tickets" min="0" value="0">
+                </fieldset>
+
+                <!-- Booking total -->
+                <p>Total price: $<span id="totalPrice">0.00</span></p>
+
+                <!-- Special requests -->
+                <label for="requests">Special requests (optional)</label>
+                <textarea id="requests" name="requests" rows="3"></textarea>
+
+                <!-- Customer details -->
+                <label for="full-name">Full name</label>
+                <input type="text" id="full-name"
+                       name="full-name" required>
+
+                <label for="email">Email address</label>
+                <input type="email" id="email"
+                       name="email" required>
+
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone"
+                       name="phone" required>
+
+                <!-- Payment method -->
+                <fieldset>
+                    <legend>Payment method</legend>
+
+                    <label>
+                        <input type="radio" id="voucher"
+                               name="payment" value="voucher">
+                        Voucher
+                    </label>
+
+                    <label>
+                        <input type="radio" id="online"
+                               name="payment" value="online">
+                        Online payment
+                    </label>
+                </fieldset>
+
+                <!-- Voucher details -->
+                <div id="voucherDetails" hidden>
+                    <label for="voucherCode">Voucher code</label>
+                    <input type="text" id="voucherCode"
+                           name="voucherCode" maxlength="12"
+                           inputmode="numeric">
+                </div>
+
+                <!-- Online payment details -->
+                <div id="cardDetails" hidden>
+                    <label for="cardType">Card type</label>
+                    <select id="cardType" name="cardType">
+                        <option value="">Choose card type</option>
+                        <option value="visa">Visa</option>
+                        <option value="mastercard">Mastercard</option>
+                        <option value="amex">American Express</option>
+                    </select>
+
+                    <label for="cardNumber">Card number</label>
+                    <input type="text" id="cardNumber"
+                           name="cardNumber" inputmode="numeric">
+                </div>
+
+                <!-- Billing email -->
+                <label for="billingEmail">Billing email address</label>
+                <input type="email" id="billingEmail"
+                       name="billingEmail" required>
+
+                <label>
+                    <input type="checkbox" id="sameEmail">
+                    Same as email address
+                </label>
+
+                <!-- Validation errors -->
+                <ul id="bookingError" class="error" role="alert"></ul>
+
+                <button type="submit">Continue with booking</button>
+            </form>
+        </section>
+    </main>
+
+   
+    <footer>
+        <p>James Kelly | COS10005 Web Development</p>
+        <p>
+            <a href="https://www.magnific.com">
+                designed by studiogstock - Magnific.com
+            </a>
+        </p>
+    </footer>
+
+</body>
+</html>

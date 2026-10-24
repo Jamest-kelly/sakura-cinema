@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <p class="sitename">Sakura Cinema</p>
+
+        <img class="cherryblossom"
+             src="images/cherryblossom.jpg"
+             alt="drawing of a pink cherry blossom">
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="recommend.html">Recommendations</a>
+            <a href="register.html" aria-current="page">Register</a>
+            <a href="booking.html">Book Tickets</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content">
+            <h1>Register</h1>
+
+            <p>
+                Register your details with Sakura Cinema.
+            </p>
+
+            <!-- Registration form -->
+            <form class="registerForm" id="registerForm"
+                  action="http://mercury.swin.edu.au/it000000/cos10005/regtest.php"
+                  method="post" novalidate>
+
+                <!-- Account details -->
+                <label for="username">Username</label>
+                <input type="text" id="username"
+                       name="username" required>
+
+                <label for="regEmail">Email address</label>
+                <input type="email" id="regEmail"
+                       name="email" required>
+
+                <label for="regPhone">Phone number</label>
+                <input type="tel" id="regPhone"
+                       name="phone" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password"
+                       name="password" required>
+
+                <label for="confirmPassword">Confirm password</label>
+                <input type="password" id="confirmPassword"
+                       name="confirmPassword" required>
+
+                <!-- Gender -->
+                <fieldset>
+                    <legend>Gender</legend>
+
+                    <label>
+                        <input type="radio" name="gender" value="male">
+                        Male
+                    </label>
+
+                    <label>
+                        <input type="radio" name="gender" value="female">
+                        Female
+                    </label>
+
+                    <label>
+                        <input type="radio" name="gender" value="nonbinary">
+                        Non-binary
+                    </label>
+
+                    <label>
+                        <input type="radio" name="gender" value="preferNot">
+                        Prefer not to say
+                    </label>
+                </fieldset>
+
+                <!-- Preferred movie genres -->
+                <fieldset>
+                    <legend>Preferred movie genres</legend>
+
+                    <label>
+                        <input type="checkbox" name="genres" value="action">
+                        Action
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="genres" value="fantasy">
+                        Fantasy
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="genres" value="drama">
+                        Drama
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="genres" value="animation">
+                        Animation
+                    </label>
+                </fieldset>
+
+                <!-- Country -->
+                <label for="country">Country / Region</label>
+                <select id="country" name="country" required>
+                    <option value="">Choose a country</option>
+                    <option value="Australia">Australia</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <!-- Validation errors -->
+                <ul id="registerError" class="error" role="alert"></ul>
+
+                <button type="submit">Register</button>
+            </form>
+        </section>
+    </main>
+
+    
+    <footer>
+        <p>James Kelly | COS10005 Web Development</p>
+        <p>
+            <a href="https://www.magnific.com">
+                designed by studiogstock - Magnific.com
+            </a>
+        </p>
+    </footer>
+
+</body>
+</html>

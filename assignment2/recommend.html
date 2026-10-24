@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <p class="sitename">Sakura Cinema</p>
+
+        <img class="cherryblossom"
+             src="images/cherryblossom.jpg"
+             alt="drawing of a pink cherry blossom">
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="recommend.html" aria-current="page">Recommendations</a>
+            <a href="register.html">Register</a>
+            <a href="booking.html">Book Tickets</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content">
+
+            <h1>Movie Recommendations</h1>
+
+            <p>
+                Not sure what to watch? Choose your preferences
+                below and we will recommend a movie for you.
+            </p>
+
+            <!-- Recommendation form -->
+            <form class="recommendForm" id="recommendForm">
+
+                <label for="genre">Preferred Genre</label>
+                <select id="genre" name="genre" required>
+                    <option value="">Choose a genre</option>
+                    <option value="action">Action</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="drama">Drama</option>
+                    <option value="scifi">Science Fiction</option>
+                </select>
+
+                <label for="ageGroup">Age Group</label>
+                <select id="ageGroup" name="ageGroup" required>
+                    <option value="">Choose an age group</option>
+                    <option value="child">Child</option>
+                    <option value="teen">Teen</option>
+                    <option value="adult">Adult</option>
+                </select>
+
+                <label for="viewing">Viewing Preference</label>
+                <select id="viewing" name="viewing" required>
+                    <option value="">Choose a preference</option>
+                    <option value="family">Family</option>
+                    <option value="friends">Friends</option>
+                    <option value="date">Date Night</option>
+                    <option value="solo">Solo</option>
+                </select>
+
+                <button type="submit">Find a Movie</button>
+
+            </form>
+
+            <!-- Recommendation result -->
+            <section id="recommendResult" hidden>
+
+                <h2>Our Recommendation</h2>
+
+                <p id="recommendText"></p>
+
+                <a class="bookbutton"
+                   id="recommendLink"
+                   href="booking.html">
+                    Book Tickets
+                </a>
+
+            </section>
+
+        </section>
+    </main>
+
+    
+    <footer>
+        <p>James Kelly | COS10005 Web Development</p>
+        <p>
+            <a href="https://www.magnific.com">
+                designed by studiogstock - Magnific.com
+            </a>
+        </p>
+    </footer>
+
+</body>
+</html>
