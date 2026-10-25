@@ -49,7 +49,8 @@ if (bookingForm) {
     }
 
 
-    /* Load movie dates from JSON */
+   
+    /* load movie dates from json */
     fetch("json/movies.json")
         .then(function(response) {
             return response.json();
@@ -60,14 +61,18 @@ if (bookingForm) {
 
                 screen.innerHTML = '<option value="">Choose a session</option>';
 
+                /* i goes through each movie in the json file */
                 for (var i = 0; i < data.movies.length; i++) {
 
+                    /* checks if the movie matches the selected movie */
                     if (data.movies[i].id == movie.value) {
 
                         var dates = data.movies[i].screenings;
 
+                        /* j goes through each screening for that movie */
                         for (var j = 0; j < dates.length; j++) {
 
+                            /* only adds screening dates in the future */
                             if (new Date(dates[j].date) > new Date()) {
                                 screen.add(new Option(dates[j].label, dates[j].date));
                             }
@@ -78,7 +83,8 @@ if (bookingForm) {
 
             showScreen();
             movie.onchange = showScreen;
-        });
+    });
+
 
 
     /* Calculate ticket price */
@@ -133,14 +139,18 @@ if (bookingForm) {
         var childQty = Number(child.value);
         var totalTickets = adultQty + studentQty + childQty;
 
+        /* customer and payment details */
         var name = document.getElementById("full-name").value;
         var phone = document.getElementById("phone").value;
         var cardType = document.getElementById("cardType").value;
         var cardNumber = document.getElementById("cardNumber").value;
+        var voucherCode = document.getElementById("voucherCode").value;
+        var voucherPattern = /^[0-9]{12}$/;
 
+        /* validation patterns */
         var phonePattern = /^[0-9]{10,}$/;
         var cardPattern = /^[0-9]+$/;
-
+        
 
         /* Check movie and session */
         if (movie.value == "") {
@@ -202,11 +212,17 @@ if (bookingForm) {
         }
 
 
-        /* Check payment method */
+        /* check payment method */
         if (!voucher.checked && !online.checked) {
             errMsg += "<li>Please select a payment method.</li>";
         }
 
+        /* check voucher code */
+        if (voucher.checked) {
+            if (!voucherCode.match(voucherPattern)) {
+                errMsg += "<li>Voucher code must have 12 digits.</li>";
+            }
+        }
 
         /* Check card details for online payment */
         if (online.checked) {
@@ -387,7 +403,7 @@ if (registerForm) {
         return result;
     }
 
-    /* Connect registration form */
+    /* connect registration form */
     registerForm.onsubmit = validateRegister;
 }
 
@@ -398,25 +414,20 @@ var recommendForm = document.getElementById("recommendForm");
 
 if (recommendForm) {
 
-    /* Recommend a movie */
+    /* recommend a movie */
     function recommendMovie() {
 
         var genre = document.getElementById("genre").value;
         var age = document.getElementById("ageGroup").value;
         var viewing = document.getElementById("viewing").value;
 
-        var movie = "howl";
-        var movieName = "Howl's Moving Castle";
+        /* stores the recommended movie */
+        var movie = "";
+        var movieName = "";
 
 
-        /* Check preferences */
-        if (genre == "" || age == "" || viewing == "") {
-            alert("Please select all three preferences.");
-            return false;
-        }
 
-
-        /* Choose movie by genre */
+        /* choose movie by genre */
         if (genre == "action") {
             movie = "beast";
             movieName = "The Boy and the Beast";
@@ -438,37 +449,20 @@ if (recommendForm) {
         }
 
 
-        /* Adult recommendations */
-        if (age == "adult" && viewing == "solo") {
+        /* adult action recommendation */
+        if (genre == "action" && age == "adult" && viewing == "solo") {
+            movie = "sword";
+            movieName = "Sword of the Stranger";
+        }
 
-            if (genre == "action") {
-                movie = "sword";
-                movieName = "Sword of the Stranger";
-            }
-
-            if (genre == "fantasy") {
-                movie = "mononoke";
-                movieName = "Princess Mononoke";
-            }
+        /* adult fantasy recommendation */
+        if (genre == "fantasy" && age == "adult" && viewing == "solo") {
+            movie = "mononoke";
+            movieName = "Princess Mononoke";
         }
 
 
-        /* Family recommendations */
-        if (viewing == "family") {
-
-            if (genre == "fantasy") {
-                movie = "howl";
-                movieName = "Howl's Moving Castle";
-            }
-
-            if (genre == "drama") {
-                movie = "wolf";
-                movieName = "Wolf Children";
-            }
-        }
-
-
-        /* Display recommended movie */
+        /* display recommended movie */
         document.getElementById("recommendText").textContent =
             "We recommend " + movieName + " based on your choices.";
 
@@ -480,6 +474,6 @@ if (recommendForm) {
         return false;
     }
 
-    /* Connect recommendation form */
+    /* connect recommendation form */
     recommendForm.onsubmit = recommendMovie;
 }

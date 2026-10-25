@@ -50,6 +50,19 @@ https://www.magnific.com/free-vector/japan-sakura-flower_136485189.htm
 
 Used in the website header.
 
+W3Schools - JavaScript If Else
+https://www.w3schools.com/js/js_if_else.asp
+
+W3Schools - JavaScript Window Location
+https://www.w3schools.com/js/js_window_location.asp
+
+W3Schools - JavaScript Form Validation
+https://www.w3schools.com/js/js_validation.asp
+
+MDN Web Docs - URLSearchParams
+https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+
+
 HELP USED
 
 I used W3Schools, my university labs to help with parts of the HTML, CSS and JavaScript. 
@@ -77,5 +90,13 @@ https://upload.wikimedia.org/wikipedia/en/c/c4/The_Boy_and_the_Beast_poster.jpg
 Summer Wars - Austin Film Society  
 https://www.austinfilm.org/films/summer-wars/
 
-Cherry blossom - studiogstock, Magnific  
-https://www.magnific.com/free-photos-vectors/single-cherry-blossom
+IMAGE REFERENCES
+
+Cherry Blossom Header Image
+Title: Japan Sakura Flower
+Artist: studiogstock
+Source: Magnific.com
+URL: https://www.magnific.com/free-vector/japan-sakura-flower_136485189.htm
+Licence: Free for commercial use with attribution.
+
+This image is used in the header across the Sakura Cinema website.

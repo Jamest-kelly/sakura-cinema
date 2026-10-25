@@ -1,5 +1,5 @@
 
-/* Main website styles */
+/* main website styles */
 
 /* keeps the header, main and footer underneath each other */
 body {
@@ -13,7 +13,7 @@ body {
 }
 
 
-/* Header and navigation */
+/* header and navigation */
 
 header {
     background-color: darkslategray;
@@ -29,7 +29,7 @@ header {
     margin: 0;
 }
 
-/* puts the links beside each other and lets them wrap */
+/* puts the navigation links beside each other */
 nav {
     display: flex;
     justify-content: center;
@@ -37,6 +37,7 @@ nav {
     gap: 8px;
 }
 
+/* styles the navigation links */
 nav a {
     color: white;
     text-decoration: none;
@@ -58,7 +59,7 @@ nav a[aria-current="page"] {
 }
 
 
-/* Main content */
+/* main content */
 
 /* fills the space between the header and footer */
 main {
@@ -72,15 +73,18 @@ main {
     margin: 0 auto;
 }
 
+/* centres the main page heading */
 h1 {
     text-align: center;
 }
 
+/* heading colours */
 h2,
 h3 {
     color: darkgreen;
 }
 
+/* paragraph and list text */
 p,
 li {
     font-size: 18px;
@@ -94,7 +98,7 @@ img {
 }
 
 
-/* Footer */
+/* footer */
 
 footer {
     background-color: darkslategray;
@@ -103,8 +107,14 @@ footer {
     padding: 15px;
 }
 
+/* smaller text for image credits */
+.imagecredit {
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
 
-/* Cherry blossom */
+
+/* cherry blossom image */
 
 /* blossom image used across the website */
 .cherryblossom {
@@ -114,23 +124,20 @@ footer {
     transition: transform 0.4s;
 }
 
-/* turns the blossom a little when the mouse is over it */
+/* turns the blossom when the mouse is over it */
 .cherryblossom:hover {
     transform: rotate(10deg);
 }
 
 
-/* All page styles are below this point */
+/* home page - index.html */
+
+/* uses the main website styles above */
 
 
-/* HOME PAGE - index.html */
-/* home introduction and image */
+/* movies page - movies.html */
 
-
-/* MOVIES PAGE - movies.html */
-/* movie posters, details and booking links */
-
-/* makes the movie booking links look like buttons */
+/* makes the booking links look like buttons */
 .bookbutton {
     display: inline-block;
     background-color: darkslategray;
@@ -147,12 +154,12 @@ footer {
     text-decoration: underline;
 }
 
-/* space between each movie */
+/* adds space between each movie */
 .movie {
     margin-bottom: 40px;
 }
 
-/* puts the poster beside the movie details */
+/* puts the movie poster beside the details */
 .movielayout {
     display: flex;
     align-items: flex-start;
@@ -172,27 +179,54 @@ footer {
 }
 
 
-/* RECOMMENDATIONS PAGE - recommend.html */
-/* recommendation form and movie results */
+/* recommendations page - recommend.html */
 
+/* centres the recommendation results */
 #recommendResult {
     max-width: 600px;
     margin: 25px auto;
 }
 
 
-/* REGISTER PAGE - register.html */
-/* registration form and error messages */
+/* register page - register.html */
+
+/* registration form uses the shared form styles below */
 
 
-/* BOOKING PAGE - booking.html */
-/* booking form, ticket numbers and payment details */
+/* booking page - booking.html */
+
+/* puts ticket labels and numbers beside each other */
+.ticketFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+/* puts ticket numbers on the right */
+.ticketFields input[type="number"] {
+    grid-column: 2;
+}
+
+/* shows payment details underneath the payment method */
+#cardDetails:not([hidden]),
+#voucherDetails:not([hidden]) {
+    display: grid;
+    gap: 10px;
+}
+
+/* keeps hidden payment details hidden */
+#cardDetails[hidden],
+#voucherDetails[hidden] {
+    display: none;
+}
 
 
-/* FORM STYLING */
+/* shared form styles */
+
 /* used for booking, registration and recommendations */
 
-/* keeps all forms centred with fields underneath each other */
+/* keeps forms centred with fields underneath each other */
 .bookingForm,
 .registerForm,
 .recommendForm {
@@ -222,19 +256,6 @@ footer {
     padding: 15px;
 }
 
-/* puts ticket labels and numbers beside each other */
-.ticketFields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    align-items: center;
-}
-
-/* ticket numbers on the right */
-.ticketFields input[type="number"] {
-    grid-column: 2;
-}
-
 /* keeps radio buttons and checkboxes small */
 .bookingForm input[type="radio"],
 .bookingForm input[type="checkbox"],
@@ -243,7 +264,7 @@ footer {
     width: auto;
 }
 
-/* keeps radio buttons and checkboxes beside their text */
+/* puts radio buttons and checkboxes beside their text */
 .bookingForm fieldset label,
 .registerForm fieldset label,
 .bookingForm > label:has(input[type="checkbox"]) {
@@ -252,21 +273,12 @@ footer {
     gap: 8px;
 }
 
-/* shows payment details underneath the payment method */
-#cardDetails:not([hidden]),
-#voucherDetails:not([hidden]) {
-    display: grid;
-    gap: 10px;
-}
-
-/* keeps hidden payment details hidden */
-#cardDetails[hidden],
-#voucherDetails[hidden],
+/* hides the recommendation result until it is needed */
 #recommendResult[hidden] {
     display: none;
 }
 
-/* styles buttons on all three forms */
+/* styles the form buttons */
 .bookingForm button,
 .registerForm button,
 .recommendForm button {
@@ -278,7 +290,7 @@ footer {
     font: inherit;
 }
 
-/* changes buttons when hovered over */
+/* changes the button colour when hovered over */
 .bookingForm button:hover,
 .bookingForm button:focus,
 .registerForm button:hover,
@@ -289,23 +301,24 @@ footer {
     text-decoration: underline;
 }
 
-/* error messages */
+/* shows error messages in red */
 .error {
     color: darkred;
 }
 
 
-/* TABLET STYLING */
+/* tablet styling */
 
 /* changes for screens between 768px and 1023px */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
+
     main {
         padding: 15px;
     }
 }
 
 
-/* MOBILE STYLING */
+/* mobile styling */
 
 /* changes for screens 767px or smaller */
 @media screen and (max-width: 767px) {
@@ -314,32 +327,40 @@ footer {
         padding: 15px;
     }
 
-    /* puts movie posters above details on phones */
-    .movielayout {
-        flex-direction: column;
-        align-items: center;
-    }
-
     /* smaller cinema name on phones */
     .sitename {
         font-size: 32px;
     }
 
-    /* stacks navigation links */
+    /* stacks navigation links on phones */
     nav {
         flex-direction: column;
     }
 
+    /* reduces space around the main content */
     main {
         padding: 10px;
     }
 
+    /* makes paragraph and list text smaller */
     p,
     li {
         font-size: 16px;
     }
 
-    /* allows forms to fit on mobile screens */
+    /* puts movie posters above the details */
+    .movielayout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* makes movie posters fit smaller screens */
+    .movieimage {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    /* makes forms fit on smaller screens */
     .bookingForm,
     .registerForm,
     .recommendForm {
