@@ -77,31 +77,35 @@ if (bookingForm) {
     }
 
 
+
     /* get movie details from json */
     function getMovieData() {
 
+        /* fetch the movie information from the json file */
         fetch("json/movies.json")
-            .then(function(response) {
+            .then(function (response) {
 
+                /* check if the file loaded successfully */
                 if (!response.ok) {
                     throw new Error("HTTP error " + response.status);
                 }
 
+                /* convert the json response into javascript data */
                 return response.json();
             })
-            .then(function(data) {
+            .then(function (data) {
 
-                /* match selected movie id */
+                /* find the movie that matches the selected movie id */
                 selectedMovie = data.movies.find(
                     m => m.id === movie.value
                 );
 
                 if (selectedMovie) {
 
-                    /* get ticket prices for this movie */
+                    /* get ticket prices for the selected movie */
                     ticketPrices = selectedMovie.ticketPrice;
 
-                    /* show prices beside ticket types */
+                    /* update the ticket price labels */
                     document.getElementById("adult-label").textContent =
                         "Adult - $" + ticketPrices.adult;
 
@@ -111,11 +115,13 @@ if (bookingForm) {
                     document.getElementById("child-label").textContent =
                         "Child - $" + ticketPrices.child;
 
-                    /* clear and add movie screening dates */
+                    /* clear the previous screening options */
                     screen.innerHTML = '<option value="">Choose a session</option>';
 
+                    /* go through each screening for the selected movie */
                     for (var i = 0; i < selectedMovie.screenings.length; i++) {
 
+                        /* add each screening to the dropdown */
                         screen.add(new Option(
                             selectedMovie.screenings[i].label,
                             selectedMovie.screenings[i].date
@@ -123,12 +129,16 @@ if (bookingForm) {
                     }
                 }
 
+                /* update the total using the selected movie prices */
                 calculatePrice();
             })
-            .catch(function(error) {
+            .catch(function (error) {
+
+                /* show an error in the browser console if loading fails */
                 console.error("Error loading movie data:", error);
             });
     }
+
 
 
     /* load booking movie after functions are ready */
@@ -151,8 +161,8 @@ if (bookingForm) {
         var childQty = Number(child.value);
 
         var total = (adultQty * ticketPrices.adult) +
-                    (studentQty * ticketPrices.student) +
-                    (childQty * ticketPrices.child);
+            (studentQty * ticketPrices.student) +
+            (childQty * ticketPrices.child);
 
         totalPrice.textContent = total.toFixed(2);
     }
@@ -335,7 +345,7 @@ if (bookingForm) {
 
     sameEmail.onclick = copyEmail;
 
-    email.oninput = function() {
+    email.oninput = function () {
         if (sameEmail.checked) {
             billingEmail.value = email.value;
         }
@@ -471,77 +481,77 @@ var recommendForm = document.getElementById("recommendForm");
 
 if (recommendForm) {
 
-    
-/* recommend a movie */
-function recommendMovie() {
 
-    var genre = document.getElementById("genre").value;
-    var age = document.getElementById("ageGroup").value;
-    var viewing = document.getElementById("viewing").value;
+    /* recommend a movie */
+    function recommendMovie() {
 
-    /* stores the recommended movie */
-    var movie = "";
-    var movieName = "";
+        var genre = document.getElementById("genre").value;
+        var age = document.getElementById("ageGroup").value;
+        var viewing = document.getElementById("viewing").value;
 
-    /* action movies */
-    if (genre == "action") {
+        /* stores the recommended movie */
+        var movie = "";
+        var movieName = "";
 
-        if (age == "adult" && (viewing == "solo" || viewing == "friends")) {
-            movie = "sword";
-            movieName = "Sword of the Stranger";
+        /* action movies */
+        if (genre == "action") {
+
+            if (age == "adult" && (viewing == "solo" || viewing == "friends")) {
+                movie = "sword";
+                movieName = "Sword of the Stranger";
+            }
+            else {
+                movie = "beast";
+                movieName = "The Boy and the Beast";
+            }
+        }
+
+        /* fantasy movies */
+        if (genre == "fantasy") {
+
+            if (age != "child" && (viewing == "solo" || viewing == "friends")) {
+                movie = "mononoke";
+                movieName = "Princess Mononoke";
+            }
+            else {
+                movie = "howl";
+                movieName = "Howl's Moving Castle";
+            }
+        }
+
+        /* drama movies */
+        if (genre == "drama") {
+            movie = "wolf";
+            movieName = "Wolf Children";
+        }
+
+        /* science fiction movies */
+        if (genre == "scifi") {
+            movie = "summer";
+            movieName = "Summer Wars";
+        }
+
+        /* display recommended movie */
+        if (movie == "") {
+            document.getElementById("recommendText").textContent =
+                "Sorry, we don't have a recommendation for your choices.";
+
+            document.getElementById("recommendLink").hidden = true;
         }
         else {
-            movie = "beast";
-            movieName = "The Boy and the Beast";
+            document.getElementById("recommendText").textContent =
+                "We recommend " + movieName + " based on your choices.";
+
+            document.getElementById("recommendLink").href =
+                "booking.html?movie=" + movie;
+
+            document.getElementById("recommendLink").hidden = false;
         }
+
+        document.getElementById("recommendResult").hidden = false;
+
+        return false;
     }
-
-    /* fantasy movies */
-    if (genre == "fantasy") {
-
-        if (age != "child" && (viewing == "solo" || viewing == "friends")) {
-            movie = "mononoke";
-            movieName = "Princess Mononoke";
-        }
-        else {
-            movie = "howl";
-            movieName = "Howl's Moving Castle";
-        }
-    }
-
-    /* drama movies */
-    if (genre == "drama") {
-        movie = "wolf";
-        movieName = "Wolf Children";
-    }
-
-    /* science fiction movies */
-    if (genre == "scifi") {
-        movie = "summer";
-        movieName = "Summer Wars";
-    }
-
-    /* display recommended movie */
-    if (movie == "") {
-        document.getElementById("recommendText").textContent =
-            "Sorry, we don't have a recommendation for your choices.";
-
-        document.getElementById("recommendLink").hidden = true;
-    }
-    else {
-        document.getElementById("recommendText").textContent =
-            "We recommend " + movieName + " based on your choices.";
-
-        document.getElementById("recommendLink").href =
-            "booking.html?movie=" + movie;
-
-        document.getElementById("recommendLink").hidden = false;
-    }
-
-    document.getElementById("recommendResult").hidden = false;
-
-    return false;
-}
 
     /* connect recommendation form */
     recommendForm.onsubmit = recommendMovie;

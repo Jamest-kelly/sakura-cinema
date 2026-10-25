@@ -33,9 +33,9 @@ I used URL parameters to carry the selected movie from the Movies and Recommenda
 
 WEBSITE LINKS
 
-Mercury: ADD LINK
+Mercury: https://mercury.swin.edu.au/cos10005/s105569920/wd_assign2/
 
-GitHub: ADD LINK
+GitHub: https://github.com/Jamest-kelly/sakura-cinema
 
 REFERENCES
 
