@@ -22,7 +22,7 @@ var bookingForm = document.getElementById("bookingForm");
 
 if (bookingForm) {
 
-    /* Find booking inputs */
+    /* find booking inputs */
     var movie = document.getElementById("movie");
     var screen = document.getElementById("screen");
 
@@ -41,68 +41,124 @@ if (bookingForm) {
     var cardDetails = document.getElementById("cardDetails");
 
 
-    /* Get movie from URL */
+    /* get movie from url */
     var movieId = new URLSearchParams(window.location.search).get("movie");
 
+    /* store selected movie and prices */
+    let selectedMovie = null;
+    let ticketPrices = null;
+
+    /* load movie selected from another page */
     if (movieId) {
         movie.value = movieId;
     }
 
+    /* run when movie dropdown changes */
+    movie.onchange = movieChanged;
 
-   
-    /* load movie dates from json */
-    fetch("json/movies.json")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
+    function movieChanged() {
 
-            function showScreen() {
+        /* clear old screening dates */
+        screen.innerHTML = '<option value="">Choose a session</option>';
 
-                screen.innerHTML = '<option value="">Choose a session</option>';
+        selectedMovie = null;
+        ticketPrices = null;
 
-                /* i goes through each movie in the json file */
-                for (var i = 0; i < data.movies.length; i++) {
+        /* reset price labels */
+        document.getElementById("adult-label").textContent = "Adult";
+        document.getElementById("student-label").textContent = "Student";
+        document.getElementById("child-label").textContent = "Child";
 
-                    /* checks if the movie matches the selected movie */
-                    if (data.movies[i].id == movie.value) {
+        calculatePrice();
 
-                        var dates = data.movies[i].screenings;
+        if (movie.value != "") {
+            getMovieData();
+        }
+    }
 
-                        /* j goes through each screening for that movie */
-                        for (var j = 0; j < dates.length; j++) {
 
-                            /* only adds screening dates in the future */
-                            if (new Date(dates[j].date) > new Date()) {
-                                screen.add(new Option(dates[j].label, dates[j].date));
-                            }
-                        }
+    /* get movie details from json */
+    function getMovieData() {
+
+        fetch("json/movies.json")
+            .then(function(response) {
+
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+
+                return response.json();
+            })
+            .then(function(data) {
+
+                /* match selected movie id */
+                selectedMovie = data.movies.find(
+                    m => m.id === movie.value
+                );
+
+                if (selectedMovie) {
+
+                    /* get ticket prices for this movie */
+                    ticketPrices = selectedMovie.ticketPrice;
+
+                    /* show prices beside ticket types */
+                    document.getElementById("adult-label").textContent =
+                        "Adult - $" + ticketPrices.adult;
+
+                    document.getElementById("student-label").textContent =
+                        "Student - $" + ticketPrices.student;
+
+                    document.getElementById("child-label").textContent =
+                        "Child - $" + ticketPrices.child;
+
+                    /* clear and add movie screening dates */
+                    screen.innerHTML = '<option value="">Choose a session</option>';
+
+                    for (var i = 0; i < selectedMovie.screenings.length; i++) {
+
+                        screen.add(new Option(
+                            selectedMovie.screenings[i].label,
+                            selectedMovie.screenings[i].date
+                        ));
                     }
                 }
-            }
 
-            showScreen();
-            movie.onchange = showScreen;
-    });
+                calculatePrice();
+            })
+            .catch(function(error) {
+                console.error("Error loading movie data:", error);
+            });
+    }
 
 
+    /* load booking movie after functions are ready */
+    if (movie.value != "") {
+        getMovieData();
+    }
 
-    /* Calculate ticket price */
+
+    /* calculate ticket price */
     function calculatePrice() {
+
+        /* wait until movie prices have loaded */
+        if (ticketPrices == null) {
+            totalPrice.textContent = "0.00";
+            return;
+        }
 
         var adultQty = Number(adult.value);
         var studentQty = Number(student.value);
         var childQty = Number(child.value);
 
-        var total = (adultQty * 18) +
-                    (studentQty * 15) +
-                    (childQty * 12);
+        var total = (adultQty * ticketPrices.adult) +
+                    (studentQty * ticketPrices.student) +
+                    (childQty * ticketPrices.child);
 
         totalPrice.textContent = total.toFixed(2);
     }
 
 
-    /* Copy email to billing email */
+    /* copy email to billing email */
     function copyEmail() {
 
         if (sameEmail.checked) {
@@ -113,7 +169,7 @@ if (bookingForm) {
     }
 
 
-    /* Show payment details */
+    /* show payment details */
     function showPayment() {
 
         if (voucher.checked) {
@@ -128,7 +184,7 @@ if (bookingForm) {
     }
 
 
-    /* Validate booking form */
+    /* validate booking form */
     function validateBooking() {
 
         var errMsg = "";
@@ -150,9 +206,9 @@ if (bookingForm) {
         /* validation patterns */
         var phonePattern = /^[0-9]{10,}$/;
         var cardPattern = /^[0-9]+$/;
-        
 
-        /* Check movie and session */
+
+        /* check movie and session */
         if (movie.value == "") {
             errMsg += "<li>Please select a movie.</li>";
         }
@@ -168,7 +224,7 @@ if (bookingForm) {
         }
 
 
-        /* Check ticket numbers */
+        /* check ticket numbers */
         if (totalTickets <= 0) {
             errMsg += "<li>Please select at least one ticket.</li>";
         }
@@ -194,7 +250,7 @@ if (bookingForm) {
         }
 
 
-        /* Check customer details */
+        /* check customer details */
         if (name.trim() == "") {
             errMsg += "<li>Please enter your full name.</li>";
         }
@@ -224,7 +280,8 @@ if (bookingForm) {
             }
         }
 
-        /* Check card details for online payment */
+
+        /* check card details for online payment */
         if (online.checked) {
 
             if (cardType == "") {
@@ -249,7 +306,7 @@ if (bookingForm) {
         }
 
 
-        /* Check billing email */
+        /* check billing email */
         if (billingEmail.value == "") {
             errMsg += "<li>Billing email cannot be empty.</li>";
         }
@@ -259,7 +316,7 @@ if (bookingForm) {
         }
 
 
-        /* Display error messages */
+        /* display error messages */
         if (errMsg != "") {
             document.getElementById("bookingError").innerHTML = errMsg;
             result = false;
@@ -271,7 +328,7 @@ if (bookingForm) {
     }
 
 
-    /* Connect booking events */
+    /* connect booking events */
     adult.oninput = calculatePrice;
     student.oninput = calculatePrice;
     child.oninput = calculatePrice;
@@ -299,7 +356,7 @@ var registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
 
-    /* Validate registration */
+    /* validate registration */
     function validateRegister() {
 
         var username = document.getElementById("username").value;
@@ -315,7 +372,7 @@ if (registerForm) {
         var errMsg = "";
         var result = true;
 
-        /* Validation patterns */
+        /* validation patterns */
         var usernamePattern = /^[a-zA-Z0-9_]+$/;
         var phonePattern = /^[0-9]{8,15}$/;
         var upperPattern = /[A-Z]/;
@@ -324,7 +381,7 @@ if (registerForm) {
         var specialPattern = /[^a-zA-Z0-9]/;
 
 
-        /* Check username */
+        /* check username */
         if (username.length < 5) {
             errMsg += "<li>Username must have at least 5 characters.</li>";
         }
@@ -334,7 +391,7 @@ if (registerForm) {
         }
 
 
-        /* Check email */
+        /* check email */
         if (email.value == "") {
             errMsg += "<li>Email cannot be empty.</li>";
         }
@@ -344,13 +401,13 @@ if (registerForm) {
         }
 
 
-        /* Check phone */
+        /* check phone */
         if (!phone.match(phonePattern)) {
             errMsg += "<li>Phone must contain 8 to 15 numbers.</li>";
         }
 
 
-        /* Check password */
+        /* check password */
         if (pwd1.length < 10) {
             errMsg += "<li>Password must have at least 10 characters.</li>";
         }
@@ -376,7 +433,7 @@ if (registerForm) {
         }
 
 
-        /* Check gender and genres */
+        /* check gender and genres */
         if (!gender) {
             errMsg += "<li>Please select a gender.</li>";
         }
@@ -386,13 +443,13 @@ if (registerForm) {
         }
 
 
-        /* Check country */
+        /* check country */
         if (country == "") {
             errMsg += "<li>Please select a country.</li>";
         }
 
 
-        /* Display error messages */
+        /* display error messages */
         if (errMsg != "") {
             document.getElementById("registerError").innerHTML = errMsg;
             result = false;
@@ -414,65 +471,77 @@ var recommendForm = document.getElementById("recommendForm");
 
 if (recommendForm) {
 
-    /* recommend a movie */
-    function recommendMovie() {
+    
+/* recommend a movie */
+function recommendMovie() {
 
-        var genre = document.getElementById("genre").value;
-        var age = document.getElementById("ageGroup").value;
-        var viewing = document.getElementById("viewing").value;
+    var genre = document.getElementById("genre").value;
+    var age = document.getElementById("ageGroup").value;
+    var viewing = document.getElementById("viewing").value;
 
-        /* stores the recommended movie */
-        var movie = "";
-        var movieName = "";
+    /* stores the recommended movie */
+    var movie = "";
+    var movieName = "";
 
+    /* action movies */
+    if (genre == "action") {
 
-
-        /* choose movie by genre */
-        if (genre == "action") {
-            movie = "beast";
-            movieName = "The Boy and the Beast";
-        }
-
-        if (genre == "fantasy") {
-            movie = "howl";
-            movieName = "Howl's Moving Castle";
-        }
-
-        if (genre == "drama") {
-            movie = "wolf";
-            movieName = "Wolf Children";
-        }
-
-        if (genre == "scifi") {
-            movie = "summer";
-            movieName = "Summer Wars";
-        }
-
-
-        /* adult action recommendation */
-        if (genre == "action" && age == "adult" && viewing == "solo") {
+        if (age == "adult" && (viewing == "solo" || viewing == "friends")) {
             movie = "sword";
             movieName = "Sword of the Stranger";
         }
+        else {
+            movie = "beast";
+            movieName = "The Boy and the Beast";
+        }
+    }
 
-        /* adult fantasy recommendation */
-        if (genre == "fantasy" && age == "adult" && viewing == "solo") {
+    /* fantasy movies */
+    if (genre == "fantasy") {
+
+        if (age != "child" && (viewing == "solo" || viewing == "friends")) {
             movie = "mononoke";
             movieName = "Princess Mononoke";
         }
+        else {
+            movie = "howl";
+            movieName = "Howl's Moving Castle";
+        }
+    }
 
+    /* drama movies */
+    if (genre == "drama") {
+        movie = "wolf";
+        movieName = "Wolf Children";
+    }
 
-        /* display recommended movie */
+    /* science fiction movies */
+    if (genre == "scifi") {
+        movie = "summer";
+        movieName = "Summer Wars";
+    }
+
+    /* display recommended movie */
+    if (movie == "") {
+        document.getElementById("recommendText").textContent =
+            "Sorry, we don't have a recommendation for your choices.";
+
+        document.getElementById("recommendLink").hidden = true;
+    }
+    else {
         document.getElementById("recommendText").textContent =
             "We recommend " + movieName + " based on your choices.";
 
         document.getElementById("recommendLink").href =
             "booking.html?movie=" + movie;
 
-        document.getElementById("recommendResult").hidden = false;
-
-        return false;
+        document.getElementById("recommendLink").hidden = false;
     }
+
+    document.getElementById("recommendResult").hidden = false;
+
+    return false;
+}
 
     /* connect recommendation form */
     recommendForm.onsubmit = recommendMovie;

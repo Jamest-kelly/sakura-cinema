@@ -54,21 +54,24 @@
                 </select>
 
                 <!-- Ticket numbers -->
+                
+                <!-- Ticket numbers -->
                 <fieldset class="ticketFields">
                     <legend>Number of tickets</legend>
 
-                    <label for="adult-tickets">Adult - $18</label>
+                    <label for="adult-tickets" id="adult-label">Adult</label>
                     <input type="number" id="adult-tickets"
-                           name="adult-tickets" min="0" value="0">
+                        name="adult-tickets" min="0" value="0">
 
-                    <label for="student-tickets">Student - $15</label>
+                    <label for="student-tickets" id="student-label">Student</label>
                     <input type="number" id="student-tickets"
-                           name="student-tickets" min="0" value="0">
+                        name="student-tickets" min="0" value="0">
 
-                    <label for="child-tickets">Child - $12</label>
+                    <label for="child-tickets" id="child-label">Child</label>
                     <input type="number" id="child-tickets"
-                           name="child-tickets" min="0" value="0">
+                        name="child-tickets" min="0" value="0">
                 </fieldset>
+
 
                 <!-- Booking total -->
                 <p>Total price: $<span id="totalPrice">0.00</span></p>
@@ -141,7 +144,7 @@
                 </label>
 
                 <!-- Validation errors -->
-                <ul id="bookingError" class="error" role="alert"></ul>
+                <ul id="bookingError" class="error"></ul>
 
                 <button type="submit">Continue with booking</button>
             </form>
